@@ -1,26 +1,52 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react'
+import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import UnfinishedTodos from './pages/UnfinishedTodos'
+import CompletedTodos from './pages/CompletedTodos'
+
+class App extends Component {
+    constructor(props) {
+        super(props)
+
+        this.state = {
+            todos: [],
+        }
+    }
+
+    componentDidMount() {
+        fetch('http://localhost:8081/todos')
+            .then(response => response.json())
+            .then(response =>
+                this.setState({
+                    ...this.state,
+                    todos: response.data,
+                })
+            )
+    }
+
+    render() {
+        return (
+            <Router>
+                <div className="container">
+                    <h1>Todos</h1>
+
+                    <nav>
+                        <Link to="/">Unfinished</Link>
+                        <Link to="/completed">Completed</Link>
+                    </nav>
+
+                    <Switch>
+                        <Route exact path="/">
+                            <UnfinishedTodos />
+                        </Route>
+                        <Route path="/completed">
+                            <CompletedTodos />
+                        </Route>
+                    </Switch>
+                </div>
+            </Router>
+        )
+    }
 }
 
-export default App;
+export default App
