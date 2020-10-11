@@ -33,3 +33,13 @@ h2 {
     display: flex;
     align-items: center;
 }
+
+.add-form {
+    display: flex;
+}
+
+.add-form input {
+    display: block;
+    width: 100%;
+    padding: 0.5rem 1rem;
+}
