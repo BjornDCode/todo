@@ -8,6 +8,7 @@ class CompletedTodos extends Component {
                 title="Done"
                 icon="BsCheck"
                 todos={this.props.todos.filter(todo => todo.completed)}
+                onUpdate={this.props.onUpdate}
             />
         )
     }

@@ -1,16 +1,6 @@
 import React, { Component } from 'react'
 
 class TodoItem extends Component {
-    constructor(props) {
-        super(props)
-
-        this.handleChange = this.handleChange.bind(this)
-    }
-
-    handleChange() {
-        console.log(this.props)
-    }
-
     render() {
         return (
             <div className="todo-item">
@@ -18,7 +8,12 @@ class TodoItem extends Component {
                     <input
                         type="checkbox"
                         checked={this.props.completed}
-                        onChange={this.handleChange}
+                        onChange={() =>
+                            this.props.onUpdate(
+                                this.props.uuid,
+                                this.props.completed
+                            )
+                        }
                     />
                     <p>{this.props.description}</p>
                 </form>

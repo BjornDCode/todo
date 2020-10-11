@@ -8,6 +8,7 @@ class UnfinishedTodos extends Component {
                 title="Todo"
                 icon="BsList"
                 todos={this.props.todos.filter(todo => !todo.completed)}
+                onUpdate={this.props.onUpdate}
             />
         )
     }

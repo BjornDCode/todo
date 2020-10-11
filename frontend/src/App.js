@@ -17,6 +17,7 @@ class App extends Component {
 
         this.handleFormChange = this.handleFormChange.bind(this)
         this.handleFormSubmit = this.handleFormSubmit.bind(this)
+        this.handleTodoUpdate = this.handleTodoUpdate.bind(this)
     }
 
     handleFormChange(event) {
@@ -50,6 +51,32 @@ class App extends Component {
             })
     }
 
+    handleTodoUpdate(id, currentStatus) {
+        fetch(`http://localhost:8081/todos/${id}`, {
+            method: 'PATCH',
+            body: JSON.stringify({ completed: !currentStatus }),
+            headers: {
+                'Content-Type': 'application/json',
+            },
+        })
+            .then(response => response.json())
+            .then(response => {
+                this.setState({
+                    ...this.state,
+                    todos: this.state.todos.map(todo => {
+                        if (todo.id !== response.data.id) {
+                            return todo
+                        }
+
+                        return {
+                            ...todo,
+                            completed: response.data.completed,
+                        }
+                    }),
+                })
+            })
+    }
+
     componentDidMount() {
         fetch('http://localhost:8081/todos')
             .then(response => response.json())
@@ -74,10 +101,16 @@ class App extends Component {
 
                     <Switch>
                         <Route exact path="/">
-                            <UnfinishedTodos todos={this.state.todos} />
+                            <UnfinishedTodos
+                                todos={this.state.todos}
+                                onUpdate={this.handleTodoUpdate}
+                            />
                         </Route>
                         <Route path="/completed">
-                            <CompletedTodos todos={this.state.todos} />
+                            <CompletedTodos
+                                todos={this.state.todos}
+                                onUpdate={this.handleTodoUpdate}
+                            />
                         </Route>
                     </Switch>
 

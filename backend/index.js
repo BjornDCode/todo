@@ -6,7 +6,7 @@ const app = express()
 app.use(express.json())
 app.use(cors())
 
-const todos = [
+let todos = [
     {
         id: uuid(),
         description: 'Homework',
@@ -37,6 +37,25 @@ app.post('/todos', (request, response) => {
     todos.push(todo)
 
     response.send({ data: todo })
+})
+
+app.patch('/todos/:id', (request, response) => {
+    let updatedTodo = {}
+
+    todos = todos.map(todo => {
+        if (todo.id !== request.params.id) {
+            return todo
+        }
+
+        updatedTodo = {
+            ...todo,
+            completed: request.body.completed,
+        }
+
+        return updatedTodo
+    })
+
+    return response.send({ data: updatedTodo })
 })
 
 const port = process.env.PORT || 8081

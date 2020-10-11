@@ -24,6 +24,7 @@ class TodoList extends Component {
                         uuid={todo.id}
                         description={todo.description}
                         completed={todo.completed}
+                        onUpdate={this.props.onUpdate}
                     />
                 ))}
             </div>
