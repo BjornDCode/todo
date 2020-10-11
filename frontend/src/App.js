@@ -19,7 +19,7 @@ class App extends Component {
             .then(response =>
                 this.setState({
                     ...this.state,
-                    todos: response.data,
+                    todos: response.data || [],
                 })
             )
     }
@@ -37,10 +37,10 @@ class App extends Component {
 
                     <Switch>
                         <Route exact path="/">
-                            <UnfinishedTodos />
+                            <UnfinishedTodos todos={this.state.todos} />
                         </Route>
                         <Route path="/completed">
-                            <CompletedTodos />
+                            <CompletedTodos todos={this.state.todos} />
                         </Route>
                     </Switch>
                 </div>

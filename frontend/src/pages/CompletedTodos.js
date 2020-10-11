@@ -3,7 +3,13 @@ import TodoList from '../TodoList'
 
 class CompletedTodos extends Component {
     render() {
-        return 'hi'
+        return (
+            <TodoList
+                title="Done"
+                icon="BsCheck"
+                todos={this.props.todos.filter(todo => todo.completed)}
+            />
+        )
     }
 }
 
