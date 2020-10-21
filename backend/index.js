@@ -1,27 +1,15 @@
 const express = require('express')
-const { v4: uuid } = require('uuid')
 const cors = require('cors')
+const { createTodo } = require('./todos')
 
 const app = express()
 app.use(express.json())
 app.use(cors())
 
 let todos = [
-    {
-        id: uuid(),
-        description: 'Homework',
-        completed: false,
-    },
-    {
-        id: uuid(),
-        description: 'Groceries',
-        completed: false,
-    },
-    {
-        id: uuid(),
-        description: 'Create mandatory project 1',
-        completed: true,
-    },
+    createTodo('Homework'),
+    createTodo('Groceries'),
+    createTodo('Create mandatory project 1', true),
 ]
 
 app.get('/todos', (request, response) => {
@@ -29,11 +17,8 @@ app.get('/todos', (request, response) => {
 })
 
 app.post('/todos', (request, response) => {
-    const todo = {
-        id: uuid(),
-        description: request.body.description,
-        completed: false,
-    }
+    const todo = createTodo(request.body.description)
+
     todos.push(todo)
 
     response.send({ data: todo })
